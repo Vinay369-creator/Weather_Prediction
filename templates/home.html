@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    </head>
+<body>
+
+    <header>
+        <h1>What's the weather like?</h1>
+    </header>
+
+   <div class="search-container">
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="search-row">
+            {{ ewo }}
+            <button type="submit">Add City</button>
+        </div>
+
+        <div class="message-box">
+            {% for m in messages %}
+                <p class="{{ m.tags }}">{{ m }}</p>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+
+    <div class="weather-container">
+
+        <!-- for loop -->
+       {% for c in cdata %}
+        <div class="weather-card">
+      <figure class="image is-50x50">
+           <img src="http://openweathermap.org/img/w/{{c.logo}}.png" alt="Image"b 7>
+           </figure>
+
+            <div class="details">
+                <h2>{{c.name|title}} </h2>
+                <h3>{{c.tem}} °C</h3>
+                <p>{{c.wet}}</p>
+            </div>
+
+            <div class="delete">
+                <a href="{% url 'delete_city' c.name %}" id='delbtn' >
+
+                    <i class="fas fa-times-circle" ></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- for loop end -->
+    </div>
+</body>
+</html>
